@@ -45,7 +45,9 @@ export default function NovelPage({ params }: NovelPageProps) {
             </p>
             <div className="mt-auto">
               <AnimatedButton asChild variant="default" size="lg" scale={0.95}>
-                <Link href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}>
+                <Link
+                  href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}
+                >
                   <p className="font-bold text-lg">첫 회 읽기</p>
                 </Link>
               </AnimatedButton>
@@ -68,15 +70,17 @@ export default function NovelPage({ params }: NovelPageProps) {
               variant="ghost"
               key={episode.id}
               size="lg"
-              className="w-full justify-start text-lg"
+              className="w-full justify-start text-lg px-3"
               scale={0.98}
             >
               <Link href={`/novel/${novel.id}/episode/${episode.id}`}>
-                <div className="flex items-center">
-                  <span className="text-muted-foreground font-bold mr-4">
+                <div className="flex items-center overflow-hidden">
+                  <p className="text-muted-foreground font-bold mr-4">
                     {episode.no}
-                  </span>
-                  <span>{episode.title}</span>
+                  </p>
+                  <p className="w-full overflow-hidden text-ellipsis">
+                    {episode.title}
+                  </p>
                 </div>
               </Link>
             </AnimatedButton>

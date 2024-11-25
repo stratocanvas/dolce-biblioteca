@@ -142,38 +142,31 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
 
     function episodeListViewer() {
       return (
-        <PopoverDrawer>
+        <PopoverDrawer className="w-full">
           <PopoverDrawerTrigger>
             <AnimatedButton variant="ghost" size="icon" scale={0.9}>
               <List className="w-4 h-4" />
             </AnimatedButton>
           </PopoverDrawerTrigger>
-          <PopoverDrawerContent>
-            <div className="p-6 md:p-1">
-              <div className="flex flex-col gap-6">
-                <h3 className="text-xl font-bold mb-2">회차 목록</h3>
-                <ScrollArea className="h-48">
-                  <div className="flex flex-col gap-1">
-                    {novel.episodes.map((episode) => (
-                      <AnimatedButton
-                        asChild
-                        key={episode.id}
-                        variant="ghost"
-                        size="lg"
-                        className="w-full justify-start pl-3 text-lg"
-                        scale={0.97}
-                      >
-                        <p className="font-medium">
-                          <span className="text-zinc-500 mr-2">
-                            {episode.no}
-                          </span>
-                          {episode.title}
-                        </p>
-                      </AnimatedButton>
-                    ))}
+          <PopoverDrawerContent className="p-6 md:p-1 flex flex-col gap-6 md:max-w-96">
+            <h3 className="text-xl font-bold mb-2">회차 목록</h3>
+            <div className="flex flex-col gap-1">
+              {novel.episodes.map((episode) => (
+                <AnimatedButton
+                  key={episode.id}
+                  variant="ghost"
+                  size="lg"
+                  className="justify-start px-3 text-lg w-full"
+                  scale={0.97}
+                >
+                  <div className="w-full flex items-center gap-2 overflow-hidden">
+                    <p className="text-zinc-500 mr-2 font-bold">{episode.no}</p>
+                    <p className="w-full overflow-hidden text-ellipsis">
+                      {episode.title}
+                    </p>
                   </div>
-                </ScrollArea>
-              </div>
+                </AnimatedButton>
+              ))}
             </div>
           </PopoverDrawerContent>
         </PopoverDrawer>
