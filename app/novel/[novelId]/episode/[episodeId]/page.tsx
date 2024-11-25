@@ -35,27 +35,34 @@ import episode from '@/app/data/episode.json'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 export default function EpisodeViewer({ params }: EpisodePageProps) {
   const [fontSize, setFontSize] = useState(18)
+  const [isResizing, setIsResizing] = useState(false)
   const [fontFamily, setFontFamily] = useState('sans')
   const { theme, setTheme } = useTheme()
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
+  const handleFontSizeChange = (newSize: number) => {
+    setIsResizing(true)
+    setFontSize(newSize)
+    setTimeout(() => setIsResizing(false), 200)
+  }
+
   useEffect(() => {
     const handleScroll = () => {
+      if (isResizing) return
+
       const currentScrollY = window.scrollY
-
       if (currentScrollY > lastScrollY) {
-        setIsHeaderVisible(false) // Scrolling down
+        setIsHeaderVisible(false)
       } else {
-        setIsHeaderVisible(true) // Scrolling up
+        setIsHeaderVisible(true)
       }
-
       setLastScrollY(currentScrollY)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  }, [lastScrollY, isResizing])
 
   return (
     <div className="bg-articleBackground">
@@ -212,8 +219,9 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                     <AnimatedButton
                       variant="ghost"
                       size="icon"
-                      onClick={() => setFontSize(fontSize - 1)}
+                      onClick={() => handleFontSizeChange(fontSize - 1)}
                       scale={0.9}
+                      disabled={fontSize <= 6}
                     >
                       <Minus className="w-4 h-4" />
                     </AnimatedButton>
@@ -228,7 +236,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                     <AnimatedButton
                       variant="ghost"
                       size="icon"
-                      onClick={() => setFontSize(fontSize + 1)}
+                      onClick={() => handleFontSizeChange(fontSize + 1)}
                       scale={0.9}
                     >
                       <Plus className="w-4 h-4" />
