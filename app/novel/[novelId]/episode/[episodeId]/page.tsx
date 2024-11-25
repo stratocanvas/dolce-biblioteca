@@ -141,8 +141,10 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
         {episodeListViewer()}
         {viewSettings()}
         <Separator orientation="vertical" className="h-6" />
-        <AnimatedButton variant="ghost" size="icon" scale={0.9}>
-          <ChevronRight className="w-4 h-4" />
+        <AnimatedButton asChild variant="ghost" size="icon" scale={0.9}>
+          <Link href={`/novel/${novel.id}/episode/${novel.episodes[1].id}`}>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
         </AnimatedButton>
       </div>
     )
