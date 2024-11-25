@@ -1,7 +1,6 @@
 import type React from "react";
-import { motion, useDragControls } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button, type ButtonProps } from "@/components/ui/button";
-import { useRef } from "react";
 interface AnimatedButtonProps extends ButtonProps {
 	children: React.ReactNode;
 	scale?: number;
@@ -25,7 +24,7 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
 					asChild={asChild}
 					type={type}
 					size={size}
-					className={className}
+					className={`${className}`}
 					{...props}
 				>
 					{children}
