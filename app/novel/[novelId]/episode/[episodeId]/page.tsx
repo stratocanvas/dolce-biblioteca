@@ -9,6 +9,7 @@ import {
 } from '@/components/popover-drawer'
 import { useTheme } from 'next-themes'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import NumberFlow from '@number-flow/react'
 import {
   ChevronLeft,
   ChevronRight,
@@ -223,7 +224,14 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                     >
                       <Minus className="w-4 h-4" />
                     </AnimatedButton>
-                    <p className="text-md font-medium">{fontSize}</p>
+                    <NumberFlow
+                      className="font-medium w-4 text-center"
+                      value={fontSize}
+                      transformTiming={{
+                        easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
+                        duration: 750,
+                      }}
+                    />
                     <AnimatedButton
                       variant="ghost"
                       size="icon"
