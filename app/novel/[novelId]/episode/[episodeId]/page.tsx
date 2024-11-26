@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import {
   PopoverDrawer,
@@ -23,7 +22,7 @@ import {
   Plus,
 } from 'lucide-react'
 import Link from 'next/link'
-import AnimatedButton from '@/components/animated-button'
+import { AnimatedButton as Button } from '@/components/animated-button'
 interface EpisodePageProps {
   params: {
     id: string // novel id
@@ -77,17 +76,22 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
               <Home className="w-4 h-4" />
             </Button>
           </div>
-          <div className="flex-1">
-            <Link
-              href={`/novel/${novel.id}`}
-              className="block hover:opacity-75 transition-opacity"
+          <div className="flex-1 flex justify-center">
+            <Button
+              asChild
+              variant="link"
+              size="lg"
+              className="px-3"
               shrink={0.95}
             >
-              <h2 className="text-lg font-medium truncate text-center xl:text-center">
-                {novel.title}
-              </h2>
-            </Link>
+              <Link href={`/novel/${novel.id}`}>
+                <h2 className="text-lg font-medium truncate">
+                  {novel.title}
+                </h2>
+              </Link>
+            </Button>
           </div>
+          <div className="flex-none w-[40px]" />
         </div>
       </div>
       <div className="max-w-4xl mx-auto p-6 mt-8 xl:mt-16 xl:px-16">
@@ -133,20 +137,20 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
           isHeaderVisible ? 'translate-y-0' : 'translate-y-24'
         }`}
       >
-        <AnimatedButton asChild variant="ghost" size="icon" scale={0.9}>
+        <Button asChild variant="ghost" size="icon" shrink={0.9}>
           <Link href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}>
             <ChevronLeft className="w-4 h-4" />
           </Link>
-        </AnimatedButton>
+        </Button>
         <Separator orientation="vertical" className="h-6" />
         {episodeListViewer()}
         {viewSettings()}
         <Separator orientation="vertical" className="h-6" />
-        <AnimatedButton asChild variant="ghost" size="icon" scale={0.9}>
+        <Button asChild variant="ghost" size="icon" shrink={0.9}>
           <Link href={`/novel/${novel.id}/episode/${novel.episodes[1].id}`}>
             <ChevronRight className="w-4 h-4" />
           </Link>
-        </AnimatedButton>
+        </Button>
       </div>
     )
 
@@ -154,15 +158,16 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
       return (
         <PopoverDrawer className="w-full">
           <PopoverDrawerTrigger>
-            <AnimatedButton variant="ghost" size="icon" scale={0.9}>
+            <Button variant="ghost" size="icon" shrink={0.9}>
               <List className="w-4 h-4" />
-            </AnimatedButton>
+            </Button>
           </PopoverDrawerTrigger>
           <PopoverDrawerContent className="p-6 md:p-1 flex flex-col gap-6 md:max-w-96">
             <h3 className="text-xl font-bold mb-2">회차 목록</h3>
             <div className="flex flex-col gap-1">
               {novel.episodes.map((episode) => (
-                <AnimatedButton
+                <Button
+                  asChild
                   key={episode.id}
                   variant="ghost"
                   size="lg"
@@ -175,7 +180,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                       {episode.title}
                     </p>
                   </div>
-                </AnimatedButton>
+                </Button>
               ))}
             </div>
           </PopoverDrawerContent>
@@ -187,9 +192,9 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
       return (
         <PopoverDrawer>
           <PopoverDrawerTrigger>
-            <AnimatedButton variant="ghost" size="icon" scale={0.9}>
+            <Button variant="ghost" size="icon" shrink={0.9}>
               <Settings className="w-4 h-4" />
-            </AnimatedButton>
+            </Button>
           </PopoverDrawerTrigger>
           <PopoverDrawerContent>
             <div className="p-6 md:p-1">
@@ -219,7 +224,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                 <div className="flex justify-between items-center">
                   <p className="text-md font-medium">글자 크기</p>
                   <div className="flex items-center gap-2">
-                    <AnimatedButton
+                    <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => handleFontSizeChange(fontSize - 1)}
@@ -227,7 +232,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                       disabled={fontSize <= 6}
                     >
                       <Minus className="w-4 h-4" />
-                    </AnimatedButton>
+                    </Button>
                     <NumberFlow
                       className="font-medium w-4 text-center"
                       value={fontSize}
@@ -236,14 +241,14 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                         duration: 750,
                       }}
                     />
-                    <AnimatedButton
+                    <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => handleFontSizeChange(fontSize + 1)}
                       shrink={0.9}
                     >
                       <Plus className="w-4 h-4" />
-                    </AnimatedButton>
+                    </Button>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">

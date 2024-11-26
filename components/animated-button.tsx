@@ -5,7 +5,7 @@ interface AnimatedButtonProps extends ButtonProps {
 	children: React.ReactNode;
 	shrink?: number;
 }
-const AnimatedButton: React.FC<AnimatedButtonProps> = ({
+export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
 	children,
 	asChild,
 	type = "button",
@@ -33,4 +33,3 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
 		</div>
 	);
 };
-export default AnimatedButton;

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import AnimatedButton from '@/components/animated-button'
+import { AnimatedButton as Button }  from '@/components/animated-button'
 interface NovelPageProps {
   params: {
     id: string
@@ -9,6 +9,7 @@ interface NovelPageProps {
 }
 import { Separator } from '@/components/ui/separator'
 import novel from '@/app/data/novel.json'
+import BookCover from '@/components/book-cover'
 export default function NovelPage({ params }: NovelPageProps) {
   return (
     <div className="mt-16 lg:mt-24 max-w-4xl mx-auto p-6 min-h-screen">
@@ -36,7 +37,7 @@ export default function NovelPage({ params }: NovelPageProps) {
                 >
                   <p className="font-bold text-lg">첫 회 읽기</p>
                 </Link>
-              </AnimatedButton>
+              </Button>
             </div>
           </div>
         </div>
@@ -51,7 +52,7 @@ export default function NovelPage({ params }: NovelPageProps) {
         <h2 className="text-2xl font-bold mb-4 mt-8">회차 목록</h2>
         <div className="flex flex-col gap-2">
           {novel.episodes.map((episode) => (
-            <AnimatedButton
+            <Button
               asChild
               variant="ghost"
               key={episode.id}
@@ -69,7 +70,7 @@ export default function NovelPage({ params }: NovelPageProps) {
                   </p>
                 </div>
               </Link>
-            </AnimatedButton>
+            </Button>
           ))}
         </div>
       </div>
