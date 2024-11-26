@@ -73,7 +73,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
       >
         <div className="flex items-center max-w-4xl mx-auto px-6 py-4">
           <div className="flex-none">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" shrink={0.9}>
               <Home className="w-4 h-4" />
             </Button>
           </div>
@@ -81,6 +81,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
             <Link
               href={`/novel/${novel.id}`}
               className="block hover:opacity-75 transition-opacity"
+              shrink={0.95}
             >
               <h2 className="text-lg font-medium truncate text-center xl:text-center">
                 {novel.title}
@@ -166,7 +167,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                   variant="ghost"
                   size="lg"
                   className="justify-start px-3 text-lg w-full"
-                  scale={0.97}
+                  shrink={0.97}
                 >
                   <div className="w-full flex items-center gap-2 overflow-hidden">
                     <p className="text-zinc-500 mr-2 font-bold">{episode.no}</p>
@@ -222,7 +223,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleFontSizeChange(fontSize - 1)}
-                      scale={0.9}
+                      shrink={0.9}
                       disabled={fontSize <= 6}
                     >
                       <Minus className="w-4 h-4" />
@@ -239,7 +240,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleFontSizeChange(fontSize + 1)}
-                      scale={0.9}
+                      shrink={0.9}
                     >
                       <Plus className="w-4 h-4" />
                     </AnimatedButton>

@@ -30,7 +30,7 @@ export default function NovelPage({ params }: NovelPageProps) {
               {novel.description}
             </p>
             <div className="mt-auto">
-              <AnimatedButton asChild variant="default" size="lg" scale={0.95}>
+              <Button asChild variant="default" size="lg" shrink={0.95}>
                 <Link
                   href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}
                 >
@@ -57,7 +57,7 @@ export default function NovelPage({ params }: NovelPageProps) {
               key={episode.id}
               size="lg"
               className="w-full justify-start text-lg px-3"
-              scale={0.98}
+              shrink={0.98}
             >
               <Link href={`/novel/${novel.id}/episode/${episode.id}`}>
                 <div className="flex items-center overflow-hidden">
