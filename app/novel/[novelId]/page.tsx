@@ -14,22 +14,8 @@ export default function NovelPage({ params }: NovelPageProps) {
     <div className="mt-16 lg:mt-24 max-w-4xl mx-auto p-6 min-h-screen">
       <div className="mb-2 pb-4">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Cover */}
-          <div className="flex-shrink-0 mx-auto md:mx-0">
-            <div className="w-48 h-64 relative rounded-lg overflow-hidden shadow-xl">
-              <div className="absolute left-0 top-0 w-4 h-full bg-zinc-700" />
-              <div className="absolute left-4 right-0 top-0 bottom-0 bg-zinc-200">
-                <div className="p-4 h-full flex flex-col justify-between">
-                  <div className="text-zinc-800 text-lg font-bold break-words">
-                    {novel.title}
-                  </div>
-                  <div className="text-zinc-500 text-sm">{novel.writer}</div>
-                </div>
-                <div className="absolute top-0 left-0 w-full h-2 bg-white/10" />
-                <div className="absolute bottom-0 left-0 w-full h-2 bg-black/20" />
-              </div>
-            </div>
-          </div>
+
+          <BookCover title={novel.title} writer={novel.writer} />
 
           {/* Info */}
           <div className="flex-grow text-center md:text-left flex flex-col">
