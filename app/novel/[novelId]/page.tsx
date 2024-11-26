@@ -45,7 +45,7 @@ export default function NovelPage({ params }: NovelPageProps) {
                 <Link
                   href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}
                 >
-                  <p className="font-bold text-lg">첫 회 읽기</p>
+                  <p className="font-bold text-lg">첫 화 읽기</p>
                 </Link>
               </Button>
             </div>
