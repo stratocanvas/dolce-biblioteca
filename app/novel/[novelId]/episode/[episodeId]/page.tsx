@@ -143,6 +143,9 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
         </Button>
         <Separator orientation="vertical" className="h-6" />
         {episodeListViewer()}
+        <Button variant="ghost" size="icon" shrink={0.9}>
+          <Bookmark className="w-4 h-4" />
+        </Button>
         {viewSettings()}
         <Separator orientation="vertical" className="h-6" />
         <Button asChild variant="ghost" size="icon" shrink={0.9}>
@@ -161,27 +164,30 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
               <List className="w-4 h-4" />
             </Button>
           </PopoverDrawerTrigger>
-          <PopoverDrawerContent className="p-6 md:p-1 flex flex-col gap-6 md:max-w-96">
-            <h3 className="text-xl font-bold mb-2">회차 목록</h3>
-            <div className="flex flex-col gap-1">
-              {novel.episodes.map((episode) => (
-                <Button
-                  asChild
-                  key={episode.id}
-                  variant="ghost"
-                  size="lg"
-                  className="justify-start px-3 text-lg w-full"
-                  shrink={0.97}
-                >
-                  <div className="w-full flex items-center gap-2 overflow-hidden">
-                    <p className="text-zinc-500 mr-2 font-bold">{episode.no}</p>
-                    <p className="w-full overflow-hidden text-ellipsis">
-                      {episode.title}
-                    </p>
-                  </div>
-                </Button>
-              ))}
-            </div>
+          <PopoverDrawerContent className="flex flex-col md:max-w-96">
+            <h3 className="text-xl font-bold mb-2 p-4">회차 목록</h3>
+            <ScrollArea className="flex max-h-48 flex-col overflow-y-auto">
+              <div className="flex flex-col gap-1 p-2">
+                {novel.episodes.map((episode) => (
+                  <Button
+                    key={episode.id}
+                    variant="ghost"
+                    size="lg"
+                    className="justify-start px-3 text-lg w-full"
+                    shrink={0.97}
+                  >
+                    <div className="w-full flex items-center gap-2 overflow-hidden">
+                      <p className="text-zinc-500 mr-2 font-bold">
+                        {episode.no}
+                      </p>
+                      <p className="w-full overflow-hidden text-ellipsis text-left">
+                        {episode.title}
+                      </p>
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            </ScrollArea>
           </PopoverDrawerContent>
         </PopoverDrawer>
       )
@@ -195,89 +201,84 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
               <Settings className="w-4 h-4" />
             </Button>
           </PopoverDrawerTrigger>
-          <PopoverDrawerContent>
-            <div className="p-6 md:p-1">
-              <div className="flex flex-col gap-6">
-                <h3 className="text-xl font-bold mb-2">설정</h3>
-                <div className="flex justify-between items-center">
-                  <p className="text-md font-medium">글꼴</p>
-                  <ToggleGroup
-                    type="single"
-                    variant="outline"
-                    value={fontFamily}
-                    onValueChange={(value) => {
-                      if (value) setFontFamily(value)
-                    }}
+          <PopoverDrawerContent className="p-4">
+            <div className="flex flex-col gap-6">
+              <h3 className="text-xl font-bold mb-2">설정</h3>
+              <div className="flex justify-between items-center">
+                <p className="text-md font-medium">글꼴</p>
+                <ToggleGroup
+                  type="single"
+                  variant="outline"
+                  value={fontFamily}
+                  onValueChange={(value) => {
+                    if (value) setFontFamily(value)
+                  }}
+                >
+                  <ToggleGroupItem value="sans" aria-label="Toggle sans-serif">
+                    고딕
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="serif" aria-label="Toggle serif">
+                    명조
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+              <div className="flex justify-between items-center">
+                <p className="text-md font-medium">글자 크기</p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleFontSizeChange(fontSize - 1)}
+                    shrink={0.9}
+                    disabled={fontSize <= 6}
                   >
-                    <ToggleGroupItem
-                      value="sans"
-                      aria-label="Toggle sans-serif"
-                    >
-                      고딕
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="serif" aria-label="Toggle serif">
-                      명조
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-md font-medium">글자 크기</p>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleFontSizeChange(fontSize - 1)}
-                      shrink={0.9}
-                      disabled={fontSize <= 6}
-                    >
-                      <Minus className="w-4 h-4" />
-                    </Button>
-                    <NumberFlow
-                      className="font-medium w-4 text-center"
-                      value={fontSize}
-                      transformTiming={{
-                        easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
-                        duration: 750,
-                      }}
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleFontSizeChange(fontSize + 1)}
-                      shrink={0.9}
-                    >
-                      <Plus className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-md font-medium">테마</p>
-                  <ToggleGroup
-                    type="single"
-                    variant="outline"
-                    value={theme}
-                    onValueChange={(value) => {
-                      if (value) {
-                        document.documentElement.classList.remove(
-                          'light',
-                          'dark',
-                          'forest',
-                        )
-                        setTheme(value)
-                      }
+                    <Minus className="w-4 h-4" />
+                  </Button>
+                  <NumberFlow
+                    className="font-medium w-4 text-center"
+                    value={fontSize}
+                    transformTiming={{
+                      easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
+                      duration: 750,
                     }}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleFontSizeChange(fontSize + 1)}
+                    shrink={0.9}
                   >
-                    <ToggleGroupItem value="light" aria-label="Toggle light">
-                      <Sun className="w-4 h-4" />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="dark" aria-label="Toggle dark">
-                      <Moon className="w-4 h-4" />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="forest" aria-label="Toggle forest">
-                      <TreePine className="w-4 h-4" />
-                    </ToggleGroupItem>
-                  </ToggleGroup>
+                    <Plus className="w-4 h-4" />
+                  </Button>
                 </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <p className="text-md font-medium">테마</p>
+                <ToggleGroup
+                  type="single"
+                  variant="outline"
+                  value={theme}
+                  onValueChange={(value) => {
+                    if (value) {
+                      document.documentElement.classList.remove(
+                        'light',
+                        'dark',
+                        'forest',
+                      )
+                      setTheme(value)
+                    }
+                  }}
+                >
+                  <ToggleGroupItem value="light" aria-label="Toggle light">
+                    <Sun className="w-4 h-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="dark" aria-label="Toggle dark">
+                    <Moon className="w-4 h-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="forest" aria-label="Toggle forest">
+                    <TreePine className="w-4 h-4" />
+                  </ToggleGroupItem>
+                </ToggleGroup>
               </div>
             </div>
           </PopoverDrawerContent>
