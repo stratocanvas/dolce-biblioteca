@@ -122,33 +122,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
 
   return (
     <div className="bg-articleBackground">
-      <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-zinc-200 dark:bg-zinc-700">
-        <div
-          className="h-full bg-primary transition-all duration-300"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
-      <div
-        className={`sticky top-0 z-40 bg-zinc-50/80 dark:bg-zinc-800/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800 transition-transform duration-300 ${
-          isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-        }`}
-      >
-        <div className="flex items-center max-w-4xl mx-auto px-6 py-4 justify-between gap-2">
-          <Button variant="ghost" size="icon" shrink={0.9} onClick={() => router.back()}>
-            <ChevronLeft />
-          </Button>
-          <div className="flex-1 min-w-0 overflow-hidden">
-            <MarqueeText
-              text={novel.title}
-              className="text-lg font-medium text-center"
-            />
-          </div>
-          <Button variant="ghost" size="icon" shrink={0.9} className="shrink-0">
-            <Bookmark className="w-4 h-4" />
-          </Button>
-        </div>
-      </div>
-      <div className="max-w-4xl mx-auto p-6 mt-8 xl:mt-16 xl:px-16">
+      <div className="max-w-4xl mx-auto p-6">
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-2">{episode.title}</h1>
         </div>

@@ -50,71 +50,6 @@ export default function NovelPage({ params }: NovelPageProps) {
 
   return (
     <>
-      <div
-        className={
-          'sticky top-0 z-40 bg-zinc-50/80 dark:bg-zinc-800/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800'
-        }
-      >
-        <div className="flex items-center max-w-4xl mx-auto px-6 py-4 gap-1">
-          <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" shrink={0.9}>
-              <ChevronLeft />
-            </Button>
-          </div>
-          <div className="flex-1 flex justify-center relative h-[42px] text-ellipsis overflow-hidden">
-            <div
-              className={`text-ellipsis overflow-hidden px-3 transition-all duration-300 ${
-                showHeaderButton
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-2'
-              }`}
-            >
-              <div className="flex-1 min-w-0 overflow-hidden">
-                <div className="relative">
-                  <MarqueeText
-                    text={novel.title}
-                    className="text-lg font-medium"
-                  />
-                  <p className="text-sm text-muted-foreground font-medium -mt-1 text-center">
-                    {novel.writer}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex-none">
-            <div
-              className={`transition-all duration-300 ${
-                showHeaderButton
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-2'
-              }`}
-            >
-              <Button
-                asChild
-                variant="default"
-                size="sm"
-                shrink={0.95}
-                className="rounded-full"
-              >
-                <Link
-                  href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}
-                >
-                  <BookOpen /> 1화
-                </Link>
-              </Button>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            shrink={0.95}
-          >
-            <Heart />
-          </Button>
-        </div>
-      </div>
-
       <div className="mt-16 lg:mt-24 max-w-4xl mx-auto p-6 min-h-screen">
         <div className="mb-2 pb-4">
           <div className="flex flex-col md:flex-row gap-8">
@@ -132,7 +67,7 @@ export default function NovelPage({ params }: NovelPageProps) {
                   {novel.description}1
                 </p>
               </div>
-              <div ref={firstEpisodeButtonRef}>
+              <div id="first-episode-button">
                 <Button
                   asChild
                   variant="default"
