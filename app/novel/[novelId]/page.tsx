@@ -79,7 +79,7 @@ export default function NovelPage({ params }: NovelPageProps) {
               </div>
             </div>
           </div>
-          <div className="flex-none w-[82px]">
+          <div className="flex-none">
             <div
               className={`transition-all duration-300 ${
                 showHeaderButton
@@ -87,11 +87,17 @@ export default function NovelPage({ params }: NovelPageProps) {
                   : 'opacity-0 translate-y-2'
               }`}
             >
-              <Button asChild variant="default" size="sm" shrink={0.95}>
+              <Button
+                asChild
+                variant="default"
+                size="sm"
+                shrink={0.95}
+                className="rounded-full"
+              >
                 <Link
                   href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}
                 >
-                  첫 화 읽기
+                  <BookOpen /> 1화
                 </Link>
               </Button>
             </div>
@@ -117,11 +123,17 @@ export default function NovelPage({ params }: NovelPageProps) {
                 </p>
               </div>
               <div ref={firstEpisodeButtonRef}>
-                <Button asChild variant="default" size="lg" shrink={0.95}>
+                <Button
+                  asChild
+                  variant="default"
+                  size="lg"
+                  shrink={0.95}
+                  className="font-bold text-lg"
+                >
                   <Link
                     href={`/novel/${novel.id}/episode/${novel.episodes[0].id}`}
                   >
-                    <p className="font-bold text-lg">첫 화 읽기</p>
+                    첫 화 읽기
                   </Link>
                 </Button>
               </div>
