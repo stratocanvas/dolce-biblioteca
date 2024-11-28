@@ -28,10 +28,11 @@ import {
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
 import { MarqueeText } from '@/components/marquee-text'
+import { useScroll } from '../../hooks/use-scroll'
 
 interface EpisodePageProps {
   params: {
-    id: string // novel id
+    id: string
     episodeId: string
   }
 }
@@ -40,38 +41,17 @@ import episode from '@/app/data/episode.json'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 export default function EpisodeViewer({ params }: EpisodePageProps) {
   const router = useRouter()
-
   const unwrappedParams = use(params)
   const [fontSize, setFontSize] = useState(18)
   const [isResizing, setIsResizing] = useState(false)
   const [fontFamily, setFontFamily] = useState('sans')
   const { theme, setTheme } = useTheme()
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const [lastReadPercentage, setLastReadPercentage] = useState(0)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isResizing) return
-
-      const currentScrollY = window.scrollY
-      const windowHeight = window.innerHeight
-      const documentHeight = document.documentElement.scrollHeight
-      const progress = (currentScrollY / (documentHeight - windowHeight)) * 100
-      setScrollProgress(progress)
-
-      if (currentScrollY > lastScrollY) {
-        setIsHeaderVisible(false)
-      } else {
-        setIsHeaderVisible(true)
-      }
-      setLastScrollY(currentScrollY)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY, isResizing])
+  const { isHeaderVisible, scrollProgress } = useScroll({
+    isEpisodePage: true,
+    isResizing,
+  })
 
   useEffect(() => {
     const savedPercentage = localStorage.getItem(

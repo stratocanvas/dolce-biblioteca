@@ -9,6 +9,7 @@ import { MarqueeText } from '@/components/marquee-text'
 import novel from '@/app/data/novel.json'
 import { useRouter } from 'next/navigation'
 
+import { useScroll } from './hooks/use-scroll'
 export default function NovelLayout({
   children,
   params,
@@ -16,48 +17,13 @@ export default function NovelLayout({
   children: React.ReactNode
   params: { novelId: string }
 }) {
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
-  const [showHeaderButton, setShowHeaderButton] = useState(false)
-  const [lastScrollY, setLastScrollY] = useState(0)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
-  const router = useRouter()
   const [isResizing, setIsResizing] = useState(false)
-
   const isEpisodePage = pathname.includes('/episode/')
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isResizing) return
-
-      const currentScrollY = window.scrollY
-      
-      if (isEpisodePage) {
-        const windowHeight = window.innerHeight
-        const documentHeight = document.documentElement.scrollHeight
-        const progress = (currentScrollY / (documentHeight - windowHeight)) * 100
-        setScrollProgress(progress)
-
-        if (currentScrollY > lastScrollY) {
-          setIsHeaderVisible(false)
-        } else {
-          setIsHeaderVisible(true)
-        }
-      } else {
-        const buttonPosition = document.querySelector('#first-episode-button')?.getBoundingClientRect()
-        if (buttonPosition) {
-          setShowHeaderButton(buttonPosition.top < 0)
-        }
-        setIsHeaderVisible(true)
-      }
-      
-      setLastScrollY(currentScrollY)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY, isResizing, isEpisodePage])
-
+  const { isHeaderVisible, showHeaderButton, scrollProgress } = useScroll({
+    isEpisodePage,
+    isResizing
+  })
   return (
     <>
       {isEpisodePage && (
