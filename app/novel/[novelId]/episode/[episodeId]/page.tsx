@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { Separator } from '@/components/ui/separator'
 import {
   PopoverDrawer,
@@ -9,6 +9,8 @@ import {
 import { useTheme } from 'next-themes'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import NumberFlow from '@number-flow/react'
+import { useRouter } from 'next/navigation'
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -20,6 +22,8 @@ import {
   TreePine,
   Minus,
   Plus,
+  ArrowDown,
+  Bookmark,
 } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
@@ -33,18 +37,15 @@ import novel from '@/app/data/novel.json'
 import episode from '@/app/data/episode.json'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 export default function EpisodeViewer({ params }: EpisodePageProps) {
+  const router = useRouter()
+
+  const unwrappedParams = use(params)
   const [fontSize, setFontSize] = useState(18)
   const [isResizing, setIsResizing] = useState(false)
   const [fontFamily, setFontFamily] = useState('sans')
   const { theme, setTheme } = useTheme()
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
-
-  const handleFontSizeChange = (newSize: number) => {
-    setIsResizing(true)
-    setFontSize(newSize)
-    setTimeout(() => setIsResizing(false), 200)
-  }
   const [scrollProgress, setScrollProgress] = useState(0)
   const [lastReadPercentage, setLastReadPercentage] = useState(0)
 
@@ -111,6 +112,12 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
     })
   }
 
+  const handleFontSizeChange = (newSize: number) => {
+    setIsResizing(true)
+    setFontSize(newSize)
+    setTimeout(() => setIsResizing(false), 200)
+  }
+
   return (
     <div className="bg-articleBackground">
       <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-zinc-200 dark:bg-zinc-700">
@@ -120,32 +127,22 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
         />
       </div>
       <div
-        className={`sticky top-0 z-50 bg-zinc-50/80 dark:bg-zinc-800/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800 transition-transform duration-300 ${
+        className={`sticky top-0 z-40 bg-zinc-50/80 dark:bg-zinc-800/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800 transition-transform duration-300 ${
           isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="flex items-center max-w-4xl mx-auto px-6 py-4">
-          <div className="flex-none">
-            <Button variant="ghost" size="icon" shrink={0.9}>
-              <Home className="w-4 h-4" />
-            </Button>
+        <div className="flex items-center max-w-4xl mx-auto px-6 py-4 justify-between gap-2">
+          <Button variant="ghost" size="icon" shrink={0.9} onClick={() => router.back()}>
+            <ChevronLeft />
+          </Button>
+          <div className="flex-1 min-w-0 overflow-hidden">
+            <p className="text-lg font-medium truncate text-center">
+              {novel.title}
+            </p>
           </div>
-          <div className="flex-1 flex justify-center">
-            <Button
-              asChild
-              variant="link"
-              size="lg"
-              className="px-3"
-              shrink={0.95}
-            >
-              <Link href={`/novel/${novel.id}`}>
-                <h2 className="text-lg font-medium truncate">
-                  {novel.title}
-                </h2>
-              </Link>
-            </Button>
-          </div>
-          <div className="flex-none w-[40px]" />
+          <Button variant="ghost" size="icon" shrink={0.9} className="shrink-0">
+            <Bookmark className="w-4 h-4" />
+          </Button>
         </div>
       </div>
       <div className="max-w-4xl mx-auto p-6 mt-8 xl:mt-16 xl:px-16">
