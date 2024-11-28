@@ -100,38 +100,29 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
     setTimeout(() => setIsResizing(false), 200)
   }
 
+  function renderParagraphs(content: string) {
+    return content.split('\n').map((paragraph, index) => (
+      <p
+        key={`${index}-${paragraph.slice(0, 20)}`}
+        className="font-medium leading-9 mb-4"
+        style={{
+          fontSize: `${fontSize}px`,
+          fontFamily: `var(--font-${fontFamily})`,
+        }}
+      >
+        {paragraph}
+      </p>
+    ))
+  }
+
   return (
     <div className="bg-articleBackground">
       <div className="max-w-4xl mx-auto p-6">
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-2">{episode.title}</h1>
         </div>
-        {/*
         <div className="prose max-w-none mb-48">
-          <p
-            className="whitespace-pre-line font-medium leading-9"
-            style={{
-              fontSize: `${fontSize}px`,
-              fontFamily: `var(--font-${fontFamily})`,
-            }}
-          >
-            {episode.content}
-          </p>
-        </div>
-        */}
-        <div className="prose max-w-none mb-48">
-          {episode.content.split('\n').map((paragraph, index) => (
-            <p
-              key={index}
-              className="font-medium leading-9 mb-4"
-              style={{
-                fontSize: `${fontSize}px`,
-                fontFamily: `var(--font-${fontFamily})`,
-              }}
-            >
-              {paragraph}
-            </p>
-          ))}
+          {renderParagraphs(episode.content)}
         </div>
         {bottomNavbar()}
       </div>
