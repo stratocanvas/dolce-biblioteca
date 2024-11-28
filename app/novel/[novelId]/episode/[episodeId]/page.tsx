@@ -9,7 +9,6 @@ import {
 import { useTheme } from 'next-themes'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import NumberFlow from '@number-flow/react'
-import { useRouter } from 'next/navigation'
 
 import {
   ChevronLeft,
@@ -27,7 +26,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
-import { MarqueeText } from '@/components/marquee-text'
 import { useScroll } from '@/hooks/use-scroll'
 
 interface EpisodePageProps {
@@ -40,7 +38,6 @@ import novel from '@/app/data/novel.json'
 import episode from '@/app/data/episode.json'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 export default function EpisodeViewer({ params }: EpisodePageProps) {
-  const router = useRouter()
   const unwrappedParams = use(params)
   const [fontSize, setFontSize] = useState(18)
   const [isResizing, setIsResizing] = useState(false)
@@ -78,21 +75,6 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
     return () => clearInterval(saveInterval)
   }, [unwrappedParams.episodeId])
 
-  const scrollToLastPosition = () => {
-    const windowHeight = window.innerHeight
-    const documentHeight = document.documentElement.scrollHeight
-    const targetPosition =
-      ((documentHeight - windowHeight) * lastReadPercentage) / 100
-
-    // Adjust scroll position up by 10% of viewport height for mobile
-    const isMobile = window.innerWidth <= 768
-    const mobileOffset = isMobile ? windowHeight * 0.1 : 0
-
-    window.scrollTo({
-      top: Math.max(0, targetPosition - mobileOffset), // Prevent negative scroll
-      behavior: 'smooth',
-    })
-  }
 
   const handleFontSizeChange = (newSize: number) => {
     setIsResizing(true)

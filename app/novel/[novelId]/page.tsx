@@ -3,11 +3,10 @@
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
 import { Separator } from '@/components/ui/separator'
-import { ArrowDown, ArrowUpDown, ChevronLeft, Heart, Home, BookOpen } from 'lucide-react'
-import { useState, useEffect, useRef } from 'react'
+import { ArrowDown } from 'lucide-react'
+import { useState } from 'react'
 import novel from '@/app/data/novel.json'
 import BookCover from '@/components/book-cover'
-import { MarqueeText } from '@/components/marquee-text'
 
 interface NovelPageProps {
   params: {
@@ -16,37 +15,10 @@ interface NovelPageProps {
 }
 
 export default function NovelPage({ params }: NovelPageProps) {
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
-  const [showHeaderButton, setShowHeaderButton] = useState(false)
-  const [lastScrollY, setLastScrollY] = useState(0)
-  const [isResizing, setIsResizing] = useState(false)
-  const firstEpisodeButtonRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isResizing) return
-
-      const currentScrollY = window.scrollY
-      const buttonPosition = firstEpisodeButtonRef.current?.getBoundingClientRect()
-
-      if (buttonPosition) {
-        setShowHeaderButton(buttonPosition.top < 0)
-      }
-
-      setIsHeaderVisible(true)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isResizing])
-
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
-
   const sortedEpisodes = [...novel.episodes].sort((a, b) => {
     return sortOrder === 'desc' ? b.no - a.no : a.no - b.no
   })
-
-  const isDarkMode = typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
 
   return (
     <>
