@@ -102,6 +102,13 @@ export default function NovelPage({ params }: NovelPageProps) {
               </Button>
             </div>
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            shrink={0.95}
+          >
+            <Heart />
+          </Button>
         </div>
       </div>
 
