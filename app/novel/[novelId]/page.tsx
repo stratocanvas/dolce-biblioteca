@@ -50,7 +50,7 @@ export default function NovelPage({ params }: NovelPageProps) {
 
   return (
     <>
-      <div className="mt-16 lg:mt-24 max-w-4xl mx-auto p-6 min-h-screen">
+      <div className="-mt-16 lg:-mt-0 max-w-4xl mx-auto p-6 min-h-screen">
         <div className="mb-2 pb-4">
           <div className="flex flex-col md:flex-row gap-8">
             <BookCover title={novel.title} writer={novel.writer} />
