@@ -12,6 +12,8 @@ export function MarqueeText({ text, className = '' }: MarqueeTextProps) {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
+    setAnimate(false)
+
     const checkTitleWidth = () => {
       if (textRef.current) {
         const isOverflowing = textRef.current.scrollWidth > textRef.current.clientWidth
@@ -19,15 +21,19 @@ export function MarqueeText({ text, className = '' }: MarqueeTextProps) {
       }
     }
 
-    checkTitleWidth()
+    const timeoutId = setTimeout(checkTitleWidth, 50)
+    
     window.addEventListener('resize', checkTitleWidth)
-    return () => window.removeEventListener('resize', checkTitleWidth)
-  }, [])
+    return () => {
+      window.removeEventListener('resize', checkTitleWidth)
+      clearTimeout(timeoutId)
+    }
+  }, [text])
 
   return (
     <p
       ref={textRef}
-      className={`whitespace-nowrap px-4 ${
+      className={`whitespace-nowrap ${
         animate ? 'animate-marquee-container' : 'truncate'
       } ${className}`}
     >
