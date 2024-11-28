@@ -45,12 +45,18 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
     setFontSize(newSize)
     setTimeout(() => setIsResizing(false), 200)
   }
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
       if (isResizing) return
 
       const currentScrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const progress = (currentScrollY / (documentHeight - windowHeight)) * 100
+      setScrollProgress(progress)
+
       if (currentScrollY > lastScrollY) {
         setIsHeaderVisible(false)
       } else {
@@ -65,6 +71,12 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
 
   return (
     <div className="bg-articleBackground">
+      <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-zinc-200 dark:bg-zinc-700">
+        <div
+          className="h-full bg-primary transition-all duration-300"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
       <div
         className={`sticky top-0 z-50 bg-zinc-50/80 dark:bg-zinc-800/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800 transition-transform duration-300 ${
           isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
