@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import novel from '@/app/data/novel.json'
 import episode from '@/app/data/episode.json'
-import { useScroll } from './hooks/use-scroll'
-import { NovelHeader } from './components/novel-header'
+import { useScroll } from '@/hooks/use-scroll'
+import { NovelHeader } from '@/components/novel-header'
 export default function NovelLayout({
   children,
   params,

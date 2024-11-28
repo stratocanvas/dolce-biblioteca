@@ -28,7 +28,7 @@ import {
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
 import { MarqueeText } from '@/components/marquee-text'
-import { useScroll } from '../../hooks/use-scroll'
+import { useScroll } from '@/hooks/use-scroll'
 
 interface EpisodePageProps {
   params: {
