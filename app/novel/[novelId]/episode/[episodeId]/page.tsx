@@ -46,6 +46,7 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
     setTimeout(() => setIsResizing(false), 200)
   }
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [lastReadPercentage, setLastReadPercentage] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,6 +69,47 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY, isResizing])
+
+  useEffect(() => {
+    const savedPercentage = localStorage.getItem(
+      `lastRead-${unwrappedParams.episodeId}`,
+    )
+    if (savedPercentage) {
+      setLastReadPercentage(Number(savedPercentage))
+    }
+
+    const saveInterval = setInterval(() => {
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const currentScrollY = window.scrollY
+      const percentage =
+        (currentScrollY / (documentHeight - windowHeight)) * 100
+
+      setLastReadPercentage(percentage)
+      localStorage.setItem(
+        `lastRead-${unwrappedParams.episodeId}`,
+        percentage.toString(),
+      )
+    }, 2000)
+
+    return () => clearInterval(saveInterval)
+  }, [unwrappedParams.episodeId])
+
+  const scrollToLastPosition = () => {
+    const windowHeight = window.innerHeight
+    const documentHeight = document.documentElement.scrollHeight
+    const targetPosition =
+      ((documentHeight - windowHeight) * lastReadPercentage) / 100
+
+    // Adjust scroll position up by 10% of viewport height for mobile
+    const isMobile = window.innerWidth <= 768
+    const mobileOffset = isMobile ? windowHeight * 0.1 : 0
+
+    window.scrollTo({
+      top: Math.max(0, targetPosition - mobileOffset), // Prevent negative scroll
+      behavior: 'smooth',
+    })
+  }
 
   return (
     <div className="bg-articleBackground">
