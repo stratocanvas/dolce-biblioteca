@@ -35,6 +35,8 @@ export function NovelHeader({
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
+      <div className="absolute inset-0 h-[100px] bg-gradient-to-b from-zinc-50/98 from-50% via-zinc-50/95 via-80% to-zinc-50/0 to-100% dark:from-zinc-800/98 dark:via-zinc-800/95 dark:to-zinc-800/0" />
+      <div className="absolute inset-0 h-[100px] backdrop-blur-xl mask-gradient" />
       <div className="relative">
         <div className="flex items-center max-w-4xl mx-auto px-6 py-4 gap-1">
           <Button

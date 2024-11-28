@@ -75,3 +75,8 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.mask-gradient {
+  mask-image: linear-gradient(to bottom, black 60%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 85%);
+}
