@@ -3,10 +3,11 @@
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
 import { Separator } from '@/components/ui/separator'
-import { ArrowDown, ArrowUpDown, ChevronLeft, Home } from 'lucide-react'
+import { ArrowDown, ArrowUpDown, ChevronLeft, Heart, Home, BookOpen } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import novel from '@/app/data/novel.json'
 import BookCover from '@/components/book-cover'
+import { MarqueeText } from '@/components/marquee-text'
 
 interface NovelPageProps {
   params: {
@@ -33,17 +34,19 @@ export default function NovelPage({ params }: NovelPageProps) {
       }
 
       setIsHeaderVisible(true)
-      setLastScrollY(currentScrollY)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY, isResizing])
+  }, [isResizing])
+
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
   const sortedEpisodes = [...novel.episodes].sort((a, b) => {
     return sortOrder === 'desc' ? b.no - a.no : a.no - b.no
   })
+
+  const isDarkMode = typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
 
   return (
     <>
@@ -52,13 +55,10 @@ export default function NovelPage({ params }: NovelPageProps) {
           'sticky top-0 z-40 bg-zinc-50/80 dark:bg-zinc-800/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800'
         }
       >
-        <div className="flex items-center max-w-4xl mx-auto px-6 py-4">
+        <div className="flex items-center max-w-4xl mx-auto px-6 py-4 gap-1">
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="icon" shrink={0.9}>
               <ChevronLeft />
-            </Button>
-            <Button variant="ghost" size="icon" shrink={0.9}>
-              <Home />
             </Button>
           </div>
           <div className="flex-1 flex justify-center relative h-[42px] text-ellipsis overflow-hidden">
@@ -70,12 +70,15 @@ export default function NovelPage({ params }: NovelPageProps) {
               }`}
             >
               <div className="flex-1 min-w-0 overflow-hidden">
-                <p className="text-lg font-medium whitespace-nowrap truncate">
-                  {novel.title}
-                </p>
-                <p className="text-sm text-muted-foreground font-medium -mt-1 text-center">
-                  {novel.writer}
-                </p>
+                <div className="relative">
+                  <MarqueeText
+                    text={novel.title}
+                    className="text-lg font-medium"
+                  />
+                  <p className="text-sm text-muted-foreground font-medium -mt-1 text-center">
+                    {novel.writer}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

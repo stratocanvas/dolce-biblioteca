@@ -27,6 +27,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatedButton as Button } from '@/components/animated-button'
+import { MarqueeText } from '@/components/marquee-text'
+
 interface EpisodePageProps {
   params: {
     id: string // novel id
@@ -136,9 +138,10 @@ export default function EpisodeViewer({ params }: EpisodePageProps) {
             <ChevronLeft />
           </Button>
           <div className="flex-1 min-w-0 overflow-hidden">
-            <p className="text-lg font-medium truncate text-center">
-              {novel.title}
-            </p>
+            <MarqueeText
+              text={novel.title}
+              className="text-lg font-medium text-center"
+            />
           </div>
           <Button variant="ghost" size="icon" shrink={0.9} className="shrink-0">
             <Bookmark className="w-4 h-4" />
