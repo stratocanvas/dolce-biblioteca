@@ -1,101 +1,102 @@
-import Image from "next/image";
-
+'use client'
+import Link from 'next/link'
+import { useEffect } from 'react'
+import { useSidebar } from '@/components/ui/sidebar'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { BookOpen, Library, User } from 'lucide-react'
+import { motion } from 'framer-motion'
 export default function Home() {
+  const { setOpen } = useSidebar()
+  useEffect(() => {
+    setOpen(false)
+  }, [setOpen])
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      <motion.main 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-col lg:flex-row gap-8 row-start-2 items-center lg:items-start"
+      >
+        <div className="flex flex-col gap-8 lg:flex-row items-center lg:gap-14">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-col gap-8"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <h1 className="text-4xl font-bold">Dolce Biblioteca</h1>
+            <p className="text-lg text-muted-foreground text-center lg:text-left">
+              카카오페이지 스테이지
+              <br />
+              블루아카이브 소설 백업 프로젝트
+            </p>
+          </motion.div>
+          <div className="flex flex-col lg:flex-row gap-8 items-center">
+            <Separator className="w-full lg:hidden" />
+            <Separator
+              orientation="vertical"
+              className="hidden lg:block h-24"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex lg:flex-col items-center lg:items-start gap-4"
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="w-full lg:w-auto justify-center lg:justify-start"
+                >
+                  <Link href="/novel" className="flex items-center gap-2">
+                    <Library className="w-4 h-4" />
+                    도서관
+                  </Link>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="w-full lg:w-auto justify-center lg:justify-start"
+                >
+                  <Link href="/my" className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4" />
+                    서재
+                  </Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </motion.main>
+      <motion.footer 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        className="row-start-3 flex flex-col gap-4 px-4 w-full max-w-2xl mx-auto text-muted-foreground"
+      >
+        <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2 justify-center">
+          <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
+            <Link href="/licence">오픈소스 라이선스</Link>
+          </Button>
+          <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
+            <Link href="https://github.com/stratocanvas/dolce-biblioteca">
+              소스코드
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
+            <Link href="/privacy">개인정보처리방침</Link>
+          </Button>
+        </div>
+        <p className="text-xs text-center text-muted-foreground px-4">
+          이 사이트는 팬 사이트로, 카카오 또는 넥슨게임즈와 관련이 없습니다.
+        </p>
+      </motion.footer>
     </div>
-  );
+  )
 }

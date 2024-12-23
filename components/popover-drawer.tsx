@@ -59,7 +59,7 @@ export function PopoverDrawer({ children, className }: PopoverDrawerProps) {
 export const PopoverDrawerTrigger = React.forwardRef<
   HTMLDivElement,
   { children: React.ReactNode; className?: string }
->(({ children, className }, ref) => {
+>(({ children, className }) => {
   const isDesktop = useMediaQuery({ query: '(min-width: 768px)' })
 
   if (isDesktop) {
