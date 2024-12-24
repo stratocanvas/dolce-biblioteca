@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     .from('bookmark')
     .select('id')
     .eq('episode_id', episodeId)
-    .eq('user_id', user.id)
+    .eq('user_id', user?.id)
     .single()
 
   return NextResponse.json({ isBookmarked: !!data })
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     .from('bookmark')
     .select('id')
     .eq('episode_id', episode_id)
-    .eq('user_id', user.id)
+    .eq('user_id', user?.id)
     .single()
 
   if (existingBookmark) {
@@ -47,6 +47,6 @@ export async function POST(request: Request) {
 
   await supabase
     .from('bookmark')
-    .insert([{ episode_id, user_id: user.id }])
+    .insert([{ episode_id, user_id: user?.id }])
   return NextResponse.json({ isBookmarked: true })
 } 

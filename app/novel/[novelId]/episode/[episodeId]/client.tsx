@@ -9,8 +9,9 @@ import { useSidebar } from '@/components/ui/sidebar'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'es-toolkit'
+import { getNovel } from '@/app/api/novels/novel'
 import type { Novel as APINovel, Episode } from '@/app/api/novels/novel'
-
+import { getEpisode } from '@/app/api/episode'
 const supabase = createClient()
 
 async function getLastReadPosition(episodeId: string) {
@@ -61,15 +62,27 @@ interface Novel extends Omit<APINovel, 'episode'> {
 }
 
 interface EpisodePageProps {
-  novel: Novel
+  novelId: string
   episodeId: string
 }
 
-interface EpisodeContentProps extends EpisodePageProps {
-  episode: string
+interface EpisodeContentProps extends EpisodePageProps {}
+
+async function fetchNovelAndEpisode(novelId: string, episodeId: string) {
+  const novel = await getNovel(novelId)
+  const episodeUrl = novel?.episode?.find(
+    (ep: Episode) => Number.parseInt(ep.episode_id) === Number.parseInt(episodeId),
+  )?.body
+  
+  if (!episodeUrl) {
+    throw new Error('Episode not found')
+  }
+  
+  const episode = await getEpisode(episodeUrl)
+  return { novel, episode }
 }
 
-export function EpisodeHeader({ novel, episodeId }: EpisodePageProps) {
+export function EpisodeHeader({ novel, episodeId }: { novel: Novel, episodeId: string }) {
   const { setOpen } = useSidebar()
   const queryClient = useQueryClient()
   const lastSavedRef = useRef<number>(0)
@@ -96,7 +109,7 @@ export function EpisodeHeader({ novel, episodeId }: EpisodePageProps) {
         lastSavedRef.current = progress
         saveLastReadPosition(episodeId, Math.floor(progress), queryClient)
       }
-    }, 500), // Increased debounce time to 2 seconds
+    }, 500),
     [episodeId, queryClient]
   )
 
@@ -137,15 +150,27 @@ export function EpisodeHeader({ novel, episodeId }: EpisodePageProps) {
 }
 
 export function EpisodeContent({
-  novel,
+  novelId,
   episodeId,
-  episode,
 }: EpisodeContentProps) {
   const queryClient = useQueryClient()
   const initialLoadRef = useRef(true)
-  const { data: lastReadPosition } = useQuery({
+
+  const { data: lastReadPosition, isLoading: isLoadingLastRead } = useQuery({
     queryKey: ['lastRead', episodeId],
     queryFn: () => getLastReadPosition(episodeId),
+    staleTime: 1000 * 60 * 5,
+    retry: 1,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
+  })
+
+  const { data: novelData, isLoading: isLoadingNovel } = useQuery({
+    queryKey: ['novel', novelId, episodeId],
+    queryFn: () => fetchNovelAndEpisode(novelId, episodeId),
+    staleTime: 1000 * 60 * 5,
+    retry: 1
   })
 
   // Add event listener for popstate (back/forward navigation)
@@ -181,13 +206,24 @@ export function EpisodeContent({
     }
   }, [lastReadPosition])
 
+  if (isLoadingNovel || isLoadingLastRead) {
+    return <EpisodeLoading />
+  }
+
+  if (!novelData) {
+    return null
+  }
+
   return (
-    <EpisodeViewerClient
-      novel={novel}
-      episodeId={episodeId}
-      episode={episode}
-      initialScrollPosition={lastReadPosition}
-    />
+    <>
+      <EpisodeHeader novel={novelData.novel} episodeId={episodeId} />
+      <EpisodeViewerClient
+        novel={novelData.novel}
+        episodeId={episodeId}
+        episode={novelData.episode}
+        initialScrollPosition={lastReadPosition}
+      />
+    </>
   )
 }
 

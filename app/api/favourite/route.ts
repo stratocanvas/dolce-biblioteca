@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     .from('favourite')
     .select('id')
     .eq('novel_id', novelId)
-    .eq('user_id', user.id)
+    .eq('user_id', user?.id)
     .single()
 
   return NextResponse.json({ isFavourited: !!data })
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     .from('favourite')
     .select('id')
     .eq('novel_id', novel_id)
-    .eq('user_id', user.id)
+    .eq('user_id', user?.id)
     .single()
 
   if (existingFavourite) {
@@ -47,6 +47,6 @@ export async function POST(request: Request) {
 
   await supabase
     .from('favourite')
-    .insert([{ novel_id, user_id: user.id }])
+    .insert([{ novel_id, user_id: user?.id }])
   return NextResponse.json({ isFavourited: true })
 } 

@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useNovelSearch } from '@/hooks/use-novel-search'
 import SearchForm from '@/components/search-form'
 import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar'
+import { Menu } from 'lucide-react'
 
 export const metadata = {
   layout: false,
@@ -47,30 +48,36 @@ function Layout({
   searchQuery?: string | null
   totalCount?: number
 }) {
+  const { toggleSidebar } = useSidebar()
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <h1 className="px-2 pt-8 text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+      <div className="flex justify-between items-center relative py-8 px-4">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent drop-shadow-md">
           도서관
         </h1>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={toggleSidebar}
+        >
+          <Menu />
+        </Button>
       </div>
 
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm py-4 shadow-sm md:hidden">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="space-y-3">
             <div className="flex items-center gap-2 max-w-2xl">
-              <Button variant="outline" asChild size="icon" className="shrink-0">
-                <SidebarTrigger />
-              </Button>
               <SearchForm />
             </div>
             {searchQuery && (
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 text-lg text-center">
                 {totalCount === 0 ? (
                   '검색 결과가 없습니다.'
                 ) : (
                   <>
-                    <span className="font-medium">{searchQuery}</span> ({totalCount}건)
+                    <span className="font-medium items-center">"{searchQuery}" 검색 결과</span>
                   </>
                 )}
               </p>
@@ -79,9 +86,7 @@ function Layout({
         </div>
       </div>
 
-      <div className="container mx-auto px-4 max-w-7xl py-8">
-        {children}
-      </div>
+      <div className="container mx-auto px-4 max-w-7xl py-8">{children}</div>
     </div>
   )
 }
@@ -94,9 +99,7 @@ interface NovelListClientProps {
   searchQuery: string | null
 }
 
-export function NovelListClient({
-  searchQuery,
-}: NovelListClientProps) {
+export function NovelListClient({ searchQuery }: NovelListClientProps) {
   const { ref, inView } = useInView()
   const {
     data,
@@ -149,9 +152,11 @@ export function NovelListClient({
   }
 
   if (!novels || novels.length === 0) {
-    return <Layout searchQuery={searchQuery} totalCount={0}>
-      <div />
-    </Layout>
+    return (
+      <Layout searchQuery={searchQuery} totalCount={0}>
+        <div />
+      </Layout>
+    )
   }
 
   return (

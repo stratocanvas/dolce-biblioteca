@@ -26,7 +26,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col gap-8"
           >
-            <h1 className="text-4xl font-bold">Dolce Biblioteca</h1>
+            <h1 className="text-4xl font-bold">Library of Ui</h1>
             <p className="text-lg text-muted-foreground text-center lg:text-left">
               카카오페이지 스테이지
               <br />
@@ -81,13 +81,8 @@ export default function Home() {
         className="row-start-3 flex flex-col gap-4 px-4 w-full max-w-2xl mx-auto text-muted-foreground"
       >
         <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2 justify-center">
-          <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
-            <Link href="/licence">오픈소스 라이선스</Link>
-          </Button>
-          <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
-            <Link href="https://github.com/stratocanvas/dolce-biblioteca">
-              소스코드
-            </Link>
+        <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
+            <Link href="/terms">약관</Link>
           </Button>
           <Button variant="ghost" asChild size="sm" className="w-full sm:w-auto">
             <Link href="/privacy">개인정보처리방침</Link>

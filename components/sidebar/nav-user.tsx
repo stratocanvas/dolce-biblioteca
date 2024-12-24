@@ -48,14 +48,40 @@ export function NavUser({
     return () => clearInterval(interval)
   }, [isClicked])
 
-  const handleWithdrawal = () => {
+  useEffect(() => {
+    // Debug session state
+    const checkSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession()
+
+    }
+    checkSession()
+  }, [])
+
+  const handleWithdrawal = async () => {
     if (!isClicked) {
       setIsClicked(true)
       setMessageIndex(0)
       return
     }
-    // TODO: Add actual withdrawal logic here
-    console.log('User withdrawal initiated')
+
+    const deletePromise = fetch('/api/delete-user', {
+      method: 'POST',
+    }).then(async (res) => {
+      if (!res.ok) {
+        const error = await res.json()
+        throw new Error(error.error || '회원 탈퇴 실패')
+      }
+      await supabase.auth.signOut()
+      router.push('/login')
+      router.refresh()
+    })
+
+    toast.promise(deletePromise, {
+      loading: '회원 탈퇴 처리 중...',
+      success: '회원 탈퇴가 완료되었습니다.',
+      error: (err) => err.message,
+    })
+
     setIsOpen(false)
   }
 
@@ -73,14 +99,17 @@ export function NavUser({
   }
 
   const handleSignOut = useCallback(async () => {
-    await supabase.auth.signOut()
-    toast.promise(supabase.auth.signOut(), {
-      loading: '로그아웃 중...',
-      success: '로그아웃 완료.',
-      error: '로그아웃 실패.',
-    })
+    try {
+      await supabase.auth.signOut()
+      toast.success('로그아웃 완료.')
+      // Clear router cache and force a hard refresh
+      router.refresh()
+      router.push('/')
+    } catch (error) {
+      toast.error('로그아웃 실패.')
+    }
     setOpenMobile(false)
-  }, [setOpenMobile])
+  }, [setOpenMobile, router])
 
   return (
     <SidebarMenu>
@@ -163,7 +192,7 @@ export function NavUser({
           <SidebarMenuButton
             onClick={() => {
               setOpenMobile(false)
-              router.push('/login?next=novel')
+              router.push('/login?next=/novel')
             }}
             className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90 active:bg-primary/90 active:text-primary-foreground/90 font-bold"
           >

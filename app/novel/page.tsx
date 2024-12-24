@@ -6,7 +6,8 @@ interface NovelListProps {
 }
 
 export default async function NovelList({ searchParams }: NovelListProps) {
-  const query = searchParams.q || null
+  const params = await searchParams
+  const query = params.q || null
     
   const initialData = query 
     ? await searchNovels(query)

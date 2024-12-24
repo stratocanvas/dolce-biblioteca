@@ -1,11 +1,13 @@
-import { createServerClient } from '@supabase/ssr'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Protected routes that require authentication
 const protectedRoutes = ['/my', '/my/bookmark', '/my/favourite', '/api/favourite', '/api/bookmark', '/api/last-read']
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
+console.log('Middleware - Request URL:', request.url)
+
+  const supabaseResponse = NextResponse.next({
     request,
   })
 
@@ -14,59 +16,58 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
     {
       cookies: {
-        getAll() {
-          return request.cookies.getAll()
+        get(name: string) {
+          const cookie = request.cookies.get(name)
+          return cookie?.value
         },
-        setAll(cookiesToSet) {
-          for (const { name, value, options } of cookiesToSet) {
-            request.cookies.set(name, value)
-          }
-          supabaseResponse = NextResponse.next({
-            request,
+        set(name: string, value: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
           })
-          for (const { name, value, options } of cookiesToSet) {
-            supabaseResponse.cookies.set(name, value, options)
-          }
+          supabaseResponse.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+          supabaseResponse.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
         },
       },
     }
   )
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
+
+
+  // Check if the current path is a protected route
+  const currentPath = request.nextUrl.pathname
+  const isProtectedRoute = protectedRoutes.some(route => currentPath === route || currentPath.startsWith(`${route}/`))
 
   // Redirect authenticated users away from login page
-  if (user && request.nextUrl.pathname.startsWith('/login')) {
-    // Get the 'next' parameter or default to '/'
+  if (session && request.nextUrl.pathname.startsWith('/login')) {
     const returnUrl = request.nextUrl.searchParams.get('next') || '/'
     return NextResponse.redirect(new URL(returnUrl, request.url))
   }
 
-  // Only redirect to login for protected routes
-  const isProtectedRoute = protectedRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
-  )
-
-  if (
-    !user &&
-    isProtectedRoute &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, redirect to login page with return URL
+  // Redirect unauthenticated users to login for protected routes
+  if (!session && isProtectedRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    
-    // For API routes, use the 'next' query parameter if provided
-    const nextPath = request.nextUrl.pathname.startsWith('/api/')
-      ? request.nextUrl.searchParams.get('next')
-      : request.nextUrl.pathname
-      
-    if (nextPath) {
-      url.searchParams.set('next', nextPath)
-    }
-    
+    url.searchParams.set('next', request.nextUrl.pathname)
     return NextResponse.redirect(url)
   }
 
