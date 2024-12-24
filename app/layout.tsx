@@ -3,12 +3,9 @@ import localFont from 'next/font/local'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Providers } from './providers'
-import {
-  SidebarInset,
-  SidebarProvider,
-} from '@/components/ui/sidebar'
-import { Toaster } from "@/components/ui/sonner"
-
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { Toaster } from '@/components/ui/sonner'
+import { Analytics } from '@vercel/analytics/react'
 import { AppSidebar } from '@/components/sidebar/sidebar'
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
@@ -55,9 +52,13 @@ export default function RootLayout({
             >
               <AppSidebar />
               <SidebarInset>
-                <main>{children}</main>
-                <Toaster className={`z-50 bg-white dark:bg-black opacity-100 ${pretendard.className}`} />
-
+                <main>
+                  {children}
+                  <Analytics />
+                </main>
+                <Toaster
+                  className={`z-50 bg-white dark:bg-black opacity-100 ${pretendard.className}`}
+                />
               </SidebarInset>
             </SidebarProvider>
           </ThemeProvider>
