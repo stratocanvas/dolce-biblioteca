@@ -5,7 +5,6 @@ import { NextResponse, type NextRequest } from 'next/server'
 const protectedRoutes = ['/my', '/my/bookmark', '/my/favourite', '/api/favourite', '/api/bookmark', '/api/last-read']
 
 export async function updateSession(request: NextRequest) {
-console.log('Middleware - Request URL:', request.url)
 
   const supabaseResponse = NextResponse.next({
     request,

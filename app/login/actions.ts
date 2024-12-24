@@ -16,7 +16,8 @@ export async function login(formData: FormData) {
 			redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auth/callback?next=${next}`,
 		},
 	});
-
+	console.log(data, error)
+	console.log(process.env.NEXT_PUBLIC_SITE_URL)
 	if (error) {
 		console.error('Login Action - OAuth error:', error);
 		throw error;
