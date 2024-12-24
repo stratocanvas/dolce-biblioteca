@@ -14,7 +14,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Library className="size-4" />
           </div>
-          Dolce Biblioteca
+          Library of Ui
         </Link>
         <LoginForm searchParams={searchParams} />
       </div>
