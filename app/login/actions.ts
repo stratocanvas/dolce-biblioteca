@@ -13,7 +13,9 @@ export async function login(formData: FormData) {
 					access_type: 'offline',
 					prompt: 'consent',
 			},
-			redirectTo: `${process.env.NEXT_PUBLIC_URL  || 'http://localhost:3000'}/api/auth/callback?next=${next}`,
+			redirectTo: process.env.NODE_ENV === 'production'
+				? `${process.env.NEXT_PUBLIC_URL}/api/auth/callback?next=${next}`
+				: `http://localhost:3000/api/auth/callback?next=${next}`,
 		},
 	});
 	console.log("login data", data)
