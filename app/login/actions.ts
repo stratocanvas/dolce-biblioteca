@@ -18,9 +18,6 @@ export async function login(formData: FormData) {
 				: `http://localhost:3000/api/auth/callback?next=${next}`,
 		},
 	});
-	console.log("login data", data)
-	console.log("login error", error)
-	console.log("login url", process.env.NEXT_PUBLIC_URL )
 	if (error) {
 		console.error('Login Action - OAuth error:', error);
 		throw error;

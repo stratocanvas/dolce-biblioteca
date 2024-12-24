@@ -26,10 +26,8 @@ export async function GET(request: Request) {
 				return NextResponse.redirect(`${origin}${next}`);
 			}
 			if (forwardedHost) {
-				console.log("forwardedHost", forwardedHost)
 				return NextResponse.redirect(`https://${forwardedHost}${next}`);
 			}
-      console.log("origin", origin)
 			return NextResponse.redirect(`${origin}${next}`);
 		}
 	}
