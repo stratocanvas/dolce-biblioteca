@@ -48,7 +48,7 @@ export async function LoginForm({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        계속하면 <a href="/privacy">개인정보 처리방침</a>에 동의하는 것으로 간주합니다.
+        계속하면 <a href="/terms">약관</a> 및 <a href="/privacy">개인정보 처리방침</a>에 동의하는 것으로 간주합니다.
       </div>
     </div>
   )
