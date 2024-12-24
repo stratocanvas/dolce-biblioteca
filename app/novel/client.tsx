@@ -51,8 +51,8 @@ function Layout({
   const { toggleSidebar } = useSidebar()
   return (
     <div className="min-h-screen">
-      <div className="flex justify-between items-center relative py-8 px-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent drop-shadow-md">
+      <div className="flex justify-between items-center relative py-8 px-4 xl:px-36">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent drop-shadow-md xl:px-2">
           도서관
         </h1>
         <Button
