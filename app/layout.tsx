@@ -2,7 +2,14 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Providers } from './providers'
+import {
+  SidebarInset,
+  SidebarProvider,
+} from '@/components/ui/sidebar'
+import { Toaster } from "@/components/ui/sonner"
 
+import { AppSidebar } from '@/components/sidebar/sidebar'
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
   variable: '--font-sans',
@@ -32,14 +39,29 @@ export default function RootLayout({
       <body
         className={`${pretendard.variable} ${ridiBatang.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SidebarProvider
+              style={
+                {
+                  '--sidebar-width': '18rem',
+                } as React.CSSProperties
+              }
+            >
+              <AppSidebar />
+              <SidebarInset>
+                <main>{children}</main>
+                <Toaster className={`z-50 bg-white dark:bg-black opacity-100 ${pretendard.className}`} />
+
+              </SidebarInset>
+            </SidebarProvider>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   )
