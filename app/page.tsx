@@ -28,7 +28,7 @@ export default function Home() {
           >
             <h1 className="text-4xl font-bold">Library of Ui</h1>
             <p className="text-lg text-muted-foreground text-center lg:text-left">
-              카카오페이지 스테이지
+              카카오페이지 스테이지 서비스 종료 대비
               <br />
               블루아카이브 소설 백업 프로젝트
             </p>
