@@ -4,13 +4,94 @@ import { useEffect } from 'react'
 import { useSidebar } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { BookOpen, Library, User } from 'lucide-react'
+import { BookOpen, Library } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { toast } from 'sonner'
+import { useQuery } from '@tanstack/react-query'
+
+interface Notice {
+  id: number
+  title: string
+  description: string | null
+  redirect: string | null
+  active: boolean
+  created_at: string
+}
+
+async function fetchNotices(): Promise<Notice[]> {
+  const response = await fetch('/api/notice')
+  if (!response.ok) {
+    throw new Error('Failed to fetch notices')
+  }
+  return response.json()
+}
+
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop()?.split(';').shift() ?? null
+  return null
+}
+
+function setCookie(name: string, value: string, days: number) {
+  if (typeof document === 'undefined') return
+  const date = new Date()
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+  const expires = `expires=${date.toUTCString()}`
+  document.cookie = `${name}=${value};${expires};path=/`
+}
+
 export default function Home() {
   const { setOpen } = useSidebar()
+  
   useEffect(() => {
     setOpen(false)
   }, [setOpen])
+
+  const { data: notices } = useQuery({
+    queryKey: ['notices'],
+    queryFn: fetchNotices,
+  })
+
+  useEffect(() => {
+    if (notices) {
+      // Check if notices were already shown in this session
+      const sessionKey = 'notices-shown'
+      if (typeof window !== 'undefined' && !sessionStorage.getItem(sessionKey)) {
+        let hasShownAnyNotice = false
+
+        for (const notice of notices) {
+          const noticeKey = `notice-${notice.id}`
+          if (!getCookie(noticeKey)) {
+            hasShownAnyNotice = true
+            const handleRedirect = () => {
+              window.location.href = notice.redirect || ''
+            }
+
+            toast.info(notice.title, {
+              description: notice.description,
+              action: notice.redirect ? {
+                label: '이동',
+                onClick: handleRedirect
+              } : undefined,
+              onDismiss: () => {
+                setCookie(noticeKey, 'true', 7)
+              },
+              duration: Number.POSITIVE_INFINITY,
+              dismissible: true
+            })
+          }
+        }
+
+        // If any notice was shown, mark this session as having shown notices
+        if (hasShownAnyNotice) {
+          sessionStorage.setItem(sessionKey, 'true')
+        }
+      }
+    }
+  }, [notices])
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <motion.main 
