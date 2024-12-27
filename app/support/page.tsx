@@ -240,7 +240,7 @@ export default function SupportPage() {
                           <Textarea
                             id="book-description"
                             name="description"
-                            placeholder="소설에 대한 간단한 설명이나 추가 요청 사유를 입력해주세요"
+                            placeholder="소설에 대한 간단한 설명이나 URL을 입력해주세요"
                             className="min-h-[100px]"
                           />
                         </div>
@@ -336,7 +336,7 @@ export default function SupportPage() {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="feature-reason">제안 이유</Label>
+                          <Label htmlFor="feature-reason">제안 사유</Label>
                           <Textarea
                             id="feature-reason"
                             name="reason"
