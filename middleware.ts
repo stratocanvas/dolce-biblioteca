@@ -3,12 +3,11 @@ import { NextResponse } from 'next/server'
 import { updateSession } from '@/utils/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  // For API routes, only apply middleware on POST requests
-  if (request.nextUrl.pathname.startsWith('/api/')) {
-    if (request.method !== 'POST') {
-      return NextResponse.next()
-    }
+  // API 요청이 아닌 경우나 GET 요청은 바로 처리
+  if (!request.nextUrl.pathname.startsWith('/api/') || request.method !== 'POST') {
+    return await updateSession(request)
   }
+  
   return await updateSession(request)
 }
 
@@ -18,7 +17,6 @@ export const config = {
     '/login',
     '/api/bookmark',
     '/api/favourite',
-    '/api/last-read',
     '/api/delete-user'
   ],
 }
