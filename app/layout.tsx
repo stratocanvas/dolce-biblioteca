@@ -57,7 +57,7 @@ export default function RootLayout({
                   <Analytics />
                 </main>
                 <Toaster
-                  className={`z-50 bg-white dark:bg-black opacity-100 ${pretendard.className}`}
+                  className={`opacity-100 ${pretendard.className}`}
                 />
               </SidebarInset>
             </SidebarProvider>
