@@ -57,15 +57,15 @@ export function PopoverDrawer({ children, className }: PopoverDrawerProps) {
 }
 
 export const PopoverDrawerTrigger = React.forwardRef<
-  HTMLDivElement,
+  HTMLButtonElement,
   { children: React.ReactNode; className?: string }
->(({ children, className }) => {
+>(({ children, className }, ref) => {
   const isDesktop = useMediaQuery({ query: '(min-width: 768px)' })
 
   if (isDesktop) {
-    return <PopoverTrigger className={className} asChild>{children}</PopoverTrigger>
+    return <PopoverTrigger ref={ref} className={className} asChild>{children}</PopoverTrigger>
   }
-  return <DrawerTrigger className={className} asChild>{children}</DrawerTrigger>
+  return <DrawerTrigger ref={ref} className={className} asChild>{children}</DrawerTrigger>
 })
 PopoverDrawerTrigger.displayName = 'PopoverDrawerTrigger'
 
