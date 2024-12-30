@@ -57,7 +57,8 @@ export async function getNovels(page = 1, limit = 10) {
 	const { data: novels, count } = await supabase
 		.from("novel")
 		.select("*, episode(count)", { count: 'exact' })
-		.range(from, from + limit - 1);
+		.range(from, from + limit - 1)
+		.order('novel_id', { ascending: false });
 
 	return { novels: novels as Novel[], count: count || 0 };
 }
