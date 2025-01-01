@@ -41,7 +41,6 @@ export async function GET() {
       )
     `)
     .eq('user_id', user.id)
-
   // Transform bookmarks data
   const validBookmarksRaw = (bookmarksRaw as any[])?.filter(b => 
     b?.episode?.novel?.novel_id && 
