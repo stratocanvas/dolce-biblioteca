@@ -6,12 +6,15 @@ export interface Episode {
 	body: string
 	index: number
 	bookmark?: boolean
+	count: number
 }
 
 export interface Novel {
 	novel_id: string
 	title: string
-	author: string
+	author?: {
+		name: string
+	}
 	tags: string[]
 	synopsis?: string
 	episode: Episode[]
@@ -24,7 +27,11 @@ export async function getNovel(id: string) {
 	const query = supabase
 		.from("novel")
 		.select(`
-      *,
+      novel_id,
+			title,
+			synopsis,
+			tags,
+			author(name),
       episode (
         *,
         bookmark!left (
@@ -56,11 +63,16 @@ export async function getNovels(page = 1, limit = 10) {
 	
 	const { data: novels, count } = await supabase
 		.from("novel")
-		.select("*, episode(count)", { count: 'exact' })
+		.select(`novel_id,
+			title,
+			synopsis,
+			tags,
+			author(name),
+			episode(count)`, { count: 'exact' })
 		.range(from, from + limit - 1)
 		.order('novel_id', { ascending: false });
-
-	return { novels: novels as Novel[], count: count || 0 };
+	console.log(novels);
+	return { novels: novels as unknown as Novel[], count: count || 0 };
 }
 
 export async function searchNovels(keyword: string, page = 1, limit = 10) {

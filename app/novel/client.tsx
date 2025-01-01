@@ -179,7 +179,7 @@ export function NovelListClient({ searchQuery }: NovelListClientProps) {
               <div className="w-40 lg:w-48 whitespace-normal">
                 <BookCover
                   title={novel.title}
-                  writer={novel.author}
+                  writer={novel.author?.name || ''}
                   genre={firstMatchingGenre as typeof VALID_GENRES[number]}
                 />
               </div>

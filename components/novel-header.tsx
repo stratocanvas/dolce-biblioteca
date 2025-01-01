@@ -88,7 +88,9 @@ interface NovelHeaderProps {
   novel: {
     novel_id: string
     title: string
-    author: string
+    author: {
+      name: string
+    }
     episode?: {
       episode_id: string
       title: string
@@ -192,7 +194,7 @@ function NovelInfo({
           <div className="transition-transform duration-300 text-left">
             <MarqueeText text={displayTitle} className="text-lg font-medium" />
             <p className="text-sm text-muted-foreground font-medium -mt-1">
-              {isEpisodePage ? novel.title : novel.author}
+              {isEpisodePage ? novel.title : novel.author.name}
             </p>
           </div>
         </div>

@@ -41,7 +41,9 @@ import {
 interface Novel {
   id: string
   title: string
-  author: string
+  author: {
+    name: string
+  }
   tags?: string[]
 }
 
@@ -105,7 +107,7 @@ function groupHistoryByNovel(history: ReadHistory[]): GroupedHistory[] {
       acc[novelId] = {
         id: novel.id,
         title: novel.title,
-        author: novel.author,
+        author: novel.author.name,
         lastRead: item.timestamp,
         type: 'novel',
         subRows: [],
@@ -120,7 +122,7 @@ function groupHistoryByNovel(history: ReadHistory[]): GroupedHistory[] {
       episode_id: item.episode_id,
       novel_id: novel.id,
       type: 'episode',
-      author: novel.author,
+      author: novel.author.name,
       lastRead: item.timestamp,
     })
 

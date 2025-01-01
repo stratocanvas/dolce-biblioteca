@@ -33,7 +33,9 @@ import {
 interface Novel {
   novel_id: string
   title: string
-  author: string
+  author: {
+    name: string
+  }
   tags?: string[]
 }
 
@@ -139,7 +141,7 @@ export default function BookmarksPage() {
     getSubRows: row => row.episodes?.map(episode => ({
       ...episode,
       novel_id: row.novel_id,
-      author: row.author,
+      author: row.author.name,
     })),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
