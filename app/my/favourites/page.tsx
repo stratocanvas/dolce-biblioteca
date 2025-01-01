@@ -94,7 +94,7 @@ export default function FavouritesPage() {
       },
     },
     {
-      accessorFn: row => row.novel.author.name,
+      accessorFn: row => row.novel.author,
       id: "author",
       header: "작가",
     },

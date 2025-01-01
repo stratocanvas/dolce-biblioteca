@@ -140,7 +140,7 @@ export function NovelListClient({ searchQuery }: NovelListClientProps) {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold text-gray-900">
-            소류가 발생했습니다
+            오류가 발생했습니다
           </h1>
           <p className="text-xl text-gray-600">잠시 후 다시 시도해주세요.</p>
           <Button asChild variant="outline">
@@ -179,7 +179,7 @@ export function NovelListClient({ searchQuery }: NovelListClientProps) {
               <div className="w-40 lg:w-48 whitespace-normal">
                 <BookCover
                   title={novel.title}
-                  writer={novel.author?.name || ''}
+                  writer={novel.author}
                   genre={firstMatchingGenre as typeof VALID_GENRES[number]}
                 />
               </div>
