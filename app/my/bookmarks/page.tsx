@@ -141,7 +141,7 @@ export default function BookmarksPage() {
     getSubRows: row => row.episodes?.map(episode => ({
       ...episode,
       novel_id: row.novel_id,
-      author: row.author.name,
+      author: row.author,
     })),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
