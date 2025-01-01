@@ -7,6 +7,8 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import { Analytics } from '@vercel/analytics/react'
 import { AppSidebar } from '@/components/sidebar/sidebar'
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
   variable: '--font-sans',
@@ -55,6 +57,7 @@ export default function RootLayout({
                 <main>
                   {children}
                   <Analytics />
+                  <SpeedInsights />
                 </main>
                 <Toaster
                   className={`opacity-100 ${pretendard.className}`}
