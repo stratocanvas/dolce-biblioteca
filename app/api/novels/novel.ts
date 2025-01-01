@@ -12,9 +12,7 @@ export interface Episode {
 export interface Novel {
 	novel_id: string
 	title: string
-	author?: {
-		name: string
-	}
+	author: string
 	tags: string[]
 	synopsis?: string
 	episode: Episode[]
@@ -52,9 +50,10 @@ export async function getNovel(id: string) {
 			...ep,
 			bookmarked: ep.bookmark,
 		}));
+		novel.author = novel.author?.name || '';
 	}
 
-	return novel as Novel;
+	return novel as unknown as Novel;
 }
 
 export async function getNovels(page = 1, limit = 10) {
@@ -71,7 +70,13 @@ export async function getNovels(page = 1, limit = 10) {
 			episode(count)`, { count: 'exact' })
 		.range(from, from + limit - 1)
 		.order('novel_id', { ascending: false });
-	console.log(novels);
+
+	if (novels) {
+		for (const novel of novels) {
+			novel.author = novel.author?.name || '';
+		}
+	}
+
 	return { novels: novels as unknown as Novel[], count: count || 0 };
 }
 

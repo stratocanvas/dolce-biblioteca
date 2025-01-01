@@ -70,7 +70,7 @@ export function NovelPageClient({ novel: initialNovel }: NovelPageClientProps) {
             <div className="w-48 lg:w-72 justify-between mx-auto md:mx-0">
               <BookCover
                 title={novel?.title}
-                writer={novel?.author?.name || ''}
+                writer={novel?.author || ''}
                 genre={
                   novel?.tags
                     .map((g: string) => (g === 'SRT' ? '발키리' : g))
@@ -98,7 +98,7 @@ export function NovelPageClient({ novel: initialNovel }: NovelPageClientProps) {
                   {novel?.title}
                 </h1>
                 <p className="text-center md:text-left w-full">
-                  {novel?.author?.name || ''}
+                  {novel?.author || ''}
                 </p>
                 <p className="text-muted-foreground leading-relaxed hidden md:block md:mt-2 w-full">
                   {novel?.synopsis}
