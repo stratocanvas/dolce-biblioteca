@@ -8,6 +8,7 @@ import {
   Bookmark,
   Heart,
   LifeBuoy,
+  Pencil,
 } from 'lucide-react'
 import {
   SidebarFooter,
@@ -64,10 +65,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ],
     navSecondary: [
       {
+        title: '집필',
+        url: '/write',
+        icon: Pencil,
+      },
+      
+      {
         title: '지원',
         url: '/support',
         icon: LifeBuoy,
       },
+      
     ],
   }
 

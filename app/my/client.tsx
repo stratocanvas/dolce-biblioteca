@@ -50,7 +50,9 @@ interface Novel {
   id: string
   title: string
   cover_url: string
-  author: string
+  author: {
+    name: string
+  }
   tags?: string[]
 }
 
@@ -72,7 +74,9 @@ interface CurrentlyReading {
 interface RecentlyRead {
   id: string
   title: string
-  author: string
+  author: {
+    name: string
+  }
   tags?: string[]
   cover_url: string
 }
@@ -87,7 +91,9 @@ interface BookmarkedEpisode {
 interface BookmarkedNovel {
   novel_id: string
   title: string
-  author: string
+  author: {
+    name: string
+  }
   tags?: string[]
   episodes: BookmarkedEpisode[]
 }
@@ -363,7 +369,7 @@ export function LibraryClient() {
                       <p
                         className={`text-base sm:text-lg mt-2 ${genreStyles[getMatchingGenre(mostRecentRead.episode.novel.tags)].writer}`}
                       >
-                        {mostRecentRead.episode.novel.author}
+                        {mostRecentRead.episode.novel.author.name}
                       </p>
                     </div>
                     <div>
@@ -432,7 +438,7 @@ export function LibraryClient() {
                     <Link href={`/novel/${novel.id}`}>
                       <BookCover
                         title={novel.title}
-                        writer={novel.author}
+                        writer={novel.author.name}
                         genre={genre}
                         className="drop-shadow-none"
                       />
@@ -486,7 +492,7 @@ export function LibraryClient() {
                                   {novel.title}
                                 </h3>
                                 <p className={`text-sm ${style.writer}`}>
-                                  {novel.author}
+                                  {novel.author.name}
                                 </p>
                               </div>
                               <ScrollArea className="flex-1 mt-3">
@@ -574,7 +580,7 @@ export function LibraryClient() {
                     <Link href={`/novel/${novel.novel_id}`}>
                       <BookCover
                         title={novel.novel.title}
-                        writer={novel.novel.author}
+                        writer={novel.novel.author.name}
                         genre={genre}
                         className="drop-shadow-none"
                       />

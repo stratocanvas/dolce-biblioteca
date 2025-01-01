@@ -31,7 +31,9 @@ import {
 interface Novel {
   id: string
   title: string
-  author: string
+  author: {
+    name: string
+  }
   tags?: string[]
 }
 
@@ -92,7 +94,7 @@ export default function FavouritesPage() {
       },
     },
     {
-      accessorFn: row => row.novel.author,
+      accessorFn: row => row.novel.author.name,
       id: "author",
       header: "작가",
     },

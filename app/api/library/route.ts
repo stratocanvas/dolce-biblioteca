@@ -17,7 +17,7 @@ export async function GET() {
       novel (
         novel_id,
         title,
-        author,
+        author(name),
         tags
       )
     `)
@@ -35,7 +35,7 @@ export async function GET() {
         novel!inner (
           novel_id,
           title,
-          author,
+          author(name),
           tags
         )
       )
@@ -66,7 +66,7 @@ export async function GET() {
     return [...acc, {
       novel_id: novel.novel_id,
       title: novel.title,
-      author: novel.author,
+      author: novel.author.name,
       tags: novel.tags || [],
       episodes: [episode]
     }]
@@ -87,7 +87,7 @@ export async function GET() {
         novel (
           novel_id,
           title,
-          author,
+          author(name),
           tags
         )
       )
@@ -114,7 +114,7 @@ export async function GET() {
       novel: {
         id: l.episode.novel.novel_id,
         title: l.episode.novel.title,
-        author: l.episode.novel.author,
+        author: l.episode.novel.author.name,
         tags: l.episode.novel.tags || [],
         cover_url: '',
       }
@@ -129,7 +129,7 @@ export async function GET() {
     return [...acc, {
       id: novel.novel_id,
       title: novel.title,
-      author: novel.author,
+      author: novel.author.name,
       tags: novel.tags || [],
       cover_url: '',
     }]
@@ -144,7 +144,7 @@ export async function GET() {
     novel: {
       id: f.novel.novel_id,
       title: f.novel.title,
-      author: f.novel.author,
+      author: f.novel.author.name,
       tags: f.novel.tags || [],
       cover_url: '',
     }
