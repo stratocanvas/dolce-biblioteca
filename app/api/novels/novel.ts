@@ -31,20 +31,24 @@ export async function getNovel(id: string) {
 			tags,
 			author(name),
       episode (
-        *,
+        episode_id,
+				novel_id,
+				title,
+				body,
+				index,
+				season(season_id, type, season_number, name, sequence),
         bookmark!left (
           id
         )
       )
     `)
 		.eq("novel_id", id);
-
 	if (user) {
 		query.eq("episode.bookmark.user_id", user.id);
 	}
 
 	const { data: novel } = await query.single();
-
+	console.log(novel)
 	if (novel) {
 		novel.episode = novel.episode.map((ep: Episode) => ({
 			...ep,

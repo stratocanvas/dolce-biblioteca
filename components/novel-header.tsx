@@ -124,10 +124,10 @@ export function NovelHeader({
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <div className="absolute inset-0 h-[100px] bg-gradient-to-b from-articleBackground/98 from-50% via-articleBackground/95 via-80% to-articleBackground/0 to-100%" />
-      <div className="absolute inset-0 h-[100px] backdrop-blur-xl mask-gradient" />
+      <div className="absolute inset-0 h-[100px] bg-gradient-to-b from-articleBackground/98 from-50% via-articleBackground/95 via-80% to-articleBackground/0 to-100% pointer-events-none" />
+      <div className="absolute inset-0 h-[100px] backdrop-blur-xl mask-gradient pointer-events-none" />
       <div className="relative">
-        <div className="flex items-center max-w-4xl mx-auto px-6 py-4 gap-1">
+        <div className="flex items-center max-w-4xl mx-auto px-6 py-4 gap-1 pointer-events-auto">
           <Button
             variant="ghost"
             size="icon"
